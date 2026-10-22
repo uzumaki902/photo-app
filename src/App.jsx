@@ -1,16 +1,31 @@
-import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
+import useFetchPhotos from "./hooks/useFetchPhotos";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { photos, loading, error } = useFetchPhotos();
+
+  if (loading) {
+    return <h1>Loading photos...</h1>;
+  }
+
+  if (error) {
+    return <h1>Error: {error}</h1>;
+  }
 
   return (
-    <>
-      <div className="text-3xl font-bold underline">sai is the best</div>
-    </>
+    <div>
+      <h1>Photos Loaded: {photos.length}</h1>
+
+      {photos.map((photo) => (
+        <div key={photo.id}>
+          <img
+            src={photo.download_url}
+            alt={`Photo by ${photo.author}`}
+            width="200"
+          />
+          <p>{photo.author}</p>
+        </div>
+      ))}
+    </div>
   );
 }
 
