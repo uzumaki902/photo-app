@@ -1,6 +1,5 @@
 import { useReducer, useEffect } from "react";
 
-// Read saved favourite IDs when the reducer is initialized.
 function getInitialFavorites() {
   try {
     const savedFavorites = localStorage.getItem("favorites");
@@ -10,7 +9,6 @@ function getInitialFavorites() {
   }
 }
 
-// Decide how the favourites list changes.
 function favoritesReducer(state, action) {
   switch (action.type) {
     case "TOGGLE_FAVOURITE": {
@@ -33,7 +31,6 @@ function useFavorites() {
     getInitialFavorites,
   );
 
-  // Save favourites whenever the collection changes.
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
