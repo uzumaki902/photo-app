@@ -1,7 +1,9 @@
 import useFetchPhotos from "../hooks/useFetchPhotos";
+import useFavorites from "../hooks/useFavorites";
 
 function Gallery() {
   const { photos, loading, error } = useFetchPhotos();
+  const { favorites, toggleFavorite } = useFavorites();
 
   if (loading) {
     return <p className="p-6 text-center">Loading photos...</p>;
@@ -34,10 +36,20 @@ function Gallery() {
 
               <button
                 type="button"
-                aria-label={`Favourite photo by ${photo.author}`}
-                className="ml-3 text-2xl text-gray-400 hover:text-red-500"
+                aria-label={
+                  favorites.includes(photo.id)
+                    ? `Remove ${photo.author} from favourites`
+                    : `Add ${photo.author} to favourites`
+                }
+                aria-pressed={favorites.includes(photo.id)}
+                onClick={() => toggleFavorite(photo.id)}
+                className={`ml-3 text-2xl ${
+                  favorites.includes(photo.id)
+                    ? "text-red-500"
+                    : "text-gray-400 hover:text-red-500"
+                }`}
               >
-                ♥
+                {favorites.includes(photo.id) ? "♥" : "♡"}
               </button>
             </div>
           </article>
